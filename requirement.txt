@@ -1,0 +1,7 @@
+python-docx
+win32com
+os
+tempfile
+pythoncom
+typing
+fastapi
