@@ -1,5 +1,6 @@
 import json
 
+import uvicorn
 from pydantic import BaseModel
 from docx import Document
 from win32com import client
@@ -117,6 +118,10 @@ async def extract_format(file: UploadFile = File(...)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"处理文件时出错: {str(e)}")
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
 # 运行接口：uvicorn main:app --reload
 # 测试接口：curl -X POST "http://127.0.0.1:8000/extract-format" -F "file=@E:\lyzzzz\formatDetection\code\files\temp_converted.docx"
