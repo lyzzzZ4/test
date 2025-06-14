@@ -78,14 +78,14 @@ def read_docx_formatting(docx_path):
 app = FastAPI(title="Word Format Extractor API")
 
 
-def convert_doc_to_docx(input_path, output_path):
-    pythoncom.CoInitialize()
-    word = client.Dispatch("Word.Application")
-    doc = word.Documents.Open(input_path)
-    doc.SaveAs(output_path, FileFormat=16)  # 16 = wdFormatDocumentDefault (.docx)
-    doc.Close()
-    word.Quit()
-    pythoncom.CoUninitialize()
+# def convert_doc_to_docx(input_path, output_path):
+#     pythoncom.CoInitialize()
+#     word = client.Dispatch("Word.Application")
+#     doc = word.Documents.Open(input_path)
+#     doc.SaveAs(output_path, FileFormat=16)  # 16 = wdFormatDocumentDefault (.docx)
+#     doc.Close()
+#     word.Quit()
+#     pythoncom.CoUninitialize()
 
 
 @app.post("/extract-format")
@@ -99,11 +99,11 @@ async def extract_format(file: UploadFile = File(...)):
             with open(input_path, "wb") as f:
                 f.write(await file.read())
 
-            if input_path.endswith(".doc"):
-                docx_path = os.path.join(tmpdir, "converted.docx")
-                convert_doc_to_docx(input_path, docx_path)
-            else:
-                docx_path = input_path
+            # if input_path.endswith(".doc"):
+            #     docx_path = os.path.join(tmpdir, "converted.docx")
+            #     convert_doc_to_docx(input_path, docx_path)
+            # else:
+            docx_path = input_path
 
             formatting_info = read_docx_formatting(docx_path)
             return JSONResponse(content=jsonable_encoder(formatting_info))
